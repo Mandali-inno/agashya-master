@@ -1,9 +1,12 @@
+import 'package:agashya/page/app%20copy.dart';
 import 'package:agashya/page/app.dart';
+import 'package:agashya/page/sign_in.dart';
 import 'package:agashya/quiz/screens/admin/dashboard.dart';
 import 'package:agashya/quiz/screens/user%20screens/user_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
 class LoginPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -12,7 +15,8 @@ class LoginPage extends StatelessWidget {
     final email = _emailController.text;
     final password = _passwordController.text;
 
-    final Uri url = Uri.parse('https://mid-term-e521e-default-rtdb.firebaseio.com/user.json');
+    final Uri url = Uri.parse(
+        'https://mid-term-e521e-default-rtdb.firebaseio.com/user.json');
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
@@ -29,9 +33,16 @@ class LoginPage extends StatelessWidget {
               };
               // Navigate to the appropriate dashboard based on the user's role
               if (userInfo['role'] == 'admin') {
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AppDisplay(userInfo: userInfo)));
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AppDisplay(userInfo: userInfo)));
               } else {
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => UserDashboard()));
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            AppDisplayUser(userInfo: userInfo)));
               }
               return true;
             }
@@ -71,6 +82,16 @@ class LoginPage extends StatelessWidget {
               onPressed: () => _login(context),
               child: Text('Login'),
             ),
+            const SizedBox(
+              height: 10,
+            ),
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => SignupScreen()));
+               
+                },
+                child: const Text("Don't have an account, Signup"))
           ],
         ),
       ),

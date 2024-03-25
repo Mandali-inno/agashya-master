@@ -169,7 +169,7 @@ class SignupScreen extends StatelessWidget {
     _dbConnect.addUser(name, email, password, role);
 
     // Navigate to the home screen or perform any other action after successful signup
-    Navigator.pushReplacementNamed(context, '/login');
+     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()));
 
     // Validate input fields
     if (name.isEmpty || email.isEmpty || password.isEmpty) {
@@ -229,7 +229,7 @@ class SignupScreen extends StatelessWidget {
               SizedBox(height: 20.0),
               DropdownButton<String>(
                 value: _selectedRole,
-                items: [
+                items: const [
                   DropdownMenuItem(
                     child: Text('Admin'),
                     value: 'admin',
@@ -255,8 +255,7 @@ class SignupScreen extends StatelessWidget {
                 onPressed: () {
                   onPressed:
                   () {
-                    Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => LoginPage()));
+                    Navigator.pop(context);
                   };
                 },
                 child: Text('Already have an account'),

@@ -14,31 +14,31 @@ import 'package:agashya/model/db_connect.dart';
 
 // import '../calculator/calculator.dart';
 
-// class AppDisplay extends StatefulWidget {
-//    AppDisplay({super.key, required Map<String, dynamic> userInfo});
+// class AppDisplayUser extends StatefulWidget {
+//    AppDisplayUser({super.key, required Map<String, dynamic> userInfo});
  
 //   @override
-//   State<AppDisplay> createState() => _AppDisplayState();
+//   State<AppDisplayUser> createState() => _AppDisplayUserState();
 // }
 
-class AppDisplay extends StatefulWidget {
+class AppDisplayUser extends StatefulWidget {
   final Map<String, dynamic> userInfo;
 
-  const AppDisplay({Key? key, required this.userInfo}) : super(key: key);
+  const AppDisplayUser({Key? key, required this.userInfo}) : super(key: key);
 
   @override
-  State<AppDisplay> createState() => _AppDisplayState();
+  State<AppDisplayUser> createState() => _AppDisplayUserState();
 }
 
 int currentPage = 0;
 int selectedDrawerIndex = 0;
 
-class _AppDisplayState extends State<AppDisplay> {
+class _AppDisplayUserState extends State<AppDisplayUser> {
   List<Widget> pages = [
     const HomePage(),
     CalculatorPage(),
     ProfilePage(),
-    AdminDashboard(),
+    UserDashboard(),
     Settings(),
     
     SignupScreen(),
