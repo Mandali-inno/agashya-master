@@ -147,6 +147,7 @@
 //   }
 // }
 import 'package:agashya/model/db_connect.dart';
+import 'package:agashya/page/login.dart';
 import 'package:flutter/material.dart';
 
 class SignupScreen extends StatelessWidget {
@@ -158,7 +159,7 @@ class SignupScreen extends StatelessWidget {
 
   final DBconnect _dbConnect = DBconnect();
 
-   void _signup(BuildContext context) {
+  void _signup(BuildContext context) {
     String name = _usernameController.text;
     String email = _emailController.text;
     String password = _passwordController.text;
@@ -169,11 +170,9 @@ class SignupScreen extends StatelessWidget {
 
     // Navigate to the home screen or perform any other action after successful signup
     Navigator.pushReplacementNamed(context, '/login');
-  
-
 
     // Validate input fields
-    if (name.isEmpty || email.isEmpty  || password.isEmpty) {
+    if (name.isEmpty || email.isEmpty || password.isEmpty) {
       // Show error message if any field is empty
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -187,7 +186,8 @@ class SignupScreen extends StatelessWidget {
     // Proceed with signup
     // You can replace this logic with your actual signup process
     // For now, let's just print the user details
-    print('Username: $name, Email: $email, Password: $password, Role: $_selectedRole');
+    print(
+        'Username: $name, Email: $email, Password: $password, Role: $_selectedRole');
 
     // Navigate to the home screen after successful signup
     Navigator.pushReplacementNamed(context, '/login');
@@ -249,6 +249,17 @@ class SignupScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () => _signup(context),
                 child: Text('Signup'),
+              ),
+              SizedBox(height: 20.0),
+              TextButton(
+                onPressed: () {
+                  onPressed:
+                  () {
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => LoginPage()));
+                  };
+                },
+                child: Text('Already have an account'),
               ),
             ],
           ),

@@ -1,3 +1,5 @@
+import 'package:agashya/calculator/calculator.dart';
+import 'package:agashya/page/login.dart';
 import 'package:agashya/services/contact_page.dart';
 import 'package:agashya/page/home_page.dart';
 import 'package:agashya/page/sign_in.dart';
@@ -8,10 +10,21 @@ import 'package:agashya/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:agashya/share_preference/pick_image.dart';
 
-import '../calculator/calculator.dart';
+import 'package:agashya/model/db_connect.dart';
+
+// import '../calculator/calculator.dart';
+
+// class AppDisplay extends StatefulWidget {
+//    AppDisplay({super.key, required Map<String, dynamic> userInfo});
+ 
+//   @override
+//   State<AppDisplay> createState() => _AppDisplayState();
+// }
 
 class AppDisplay extends StatefulWidget {
-  const AppDisplay({super.key});
+  final Map<String, dynamic> userInfo;
+
+  const AppDisplay({Key? key, required this.userInfo}) : super(key: key);
 
   @override
   State<AppDisplay> createState() => _AppDisplayState();
@@ -24,8 +37,8 @@ class _AppDisplayState extends State<AppDisplay> {
   List<Widget> pages = [
     const HomePage(),
     CalculatorPage(),
-    const ProfilePage(),
-    AdminDashboard(),
+    ProfilePage(),
+    UserDashboard(),
     Settings(),
     
     SignupScreen(),
@@ -45,8 +58,10 @@ class _AppDisplayState extends State<AppDisplay> {
             padding: EdgeInsets.zero,
             children: [
               UserAccountsDrawerHeader(
-                accountName: const Text('Mandali'),
-                accountEmail: const Text('mandaliinno@gmail.com'),
+                // accountName: const Text('Mandali'),
+                // accountEmail: const Text('mandaliinno@gmail.com'),
+                accountName: Text(widget.userInfo['name'] ?? ''),
+                accountEmail: Text(widget.userInfo['email'] ?? ''),
                 currentAccountPicture: CircleAvatar(
                   child: ClipOval(
                     child: GestureDetector(
@@ -63,27 +78,7 @@ class _AppDisplayState extends State<AppDisplay> {
                   fit: BoxFit.cover,
                 )),
               ),
-              // ListTile(
-              //   title: const Text('Home'),
-              //   leading: const Icon(Icons.home, color: Colors.blue),
-              //   onTap: () {
-              //     Navigator.of(context).push(
-              //         MaterialPageRoute(builder: (context) => const HomePage()));
-              //   },
-              // ),
-              // const ListTile(
-              //   title: Text('Calculator'),
-              //   leading: Icon(Icons.calculate, color: Colors.blue),
-              // ),
-              // ListTile(
-              //   title: const Text('Contacts'),
-              //   leading:
-              //       const Icon(Icons.person_2_sharp, color: Colors.blue),
-              //   // onTap: () {
-              //   //   Navigator.of(context).push(MaterialPageRoute(
-              //   //       builder: (context) => const ProfilePage()));
-              //   // },
-              // ),
+              
               buildDrawerItem(0, 'Home', Icons.home),
               buildDrawerItem(1, 'Calculator', Icons.calculate),
               buildDrawerItem(2, 'Contacts', Icons.person),
@@ -105,9 +100,8 @@ class _AppDisplayState extends State<AppDisplay> {
                 title: const Text('Logout'),
                 leading: const Icon(Icons.logout),
                 onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => SignupScreen()));
-                },
+  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()));
+},
               ),
             ],
           ),
@@ -170,3 +164,4 @@ class _AppDisplayState extends State<AppDisplay> {
     );
   }
 }
+

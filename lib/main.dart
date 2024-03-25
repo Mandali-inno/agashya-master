@@ -1,4 +1,5 @@
 import 'package:agashya/page/app.dart';
+import 'package:agashya/page/login.dart';
 import 'package:agashya/share_preference/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +9,6 @@ void main() {
     ChangeNotifierProvider<ThemeProvider>(
       create: (_) => ThemeProvider()..initialize(),
       child: const MyApp(),
-      
     ),
   );
 }
@@ -37,6 +37,6 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> {
   @override
   Widget build(BuildContext context) {
-    return AppDisplay();
+    return LoginPage();
   }
 }

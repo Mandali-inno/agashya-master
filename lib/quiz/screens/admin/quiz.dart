@@ -395,7 +395,6 @@ class _AdminQuizState extends State<AdminQuiz> {
     Map<String, dynamic> updatedQuestion = {
       'question': questionController.text,
       'options': [
-        answerController.text,
         option1Controller.text,
         option2Controller.text,
         option3Controller.text,
@@ -481,7 +480,7 @@ class _AdminQuizState extends State<AdminQuiz> {
                     IconButton(
                       icon: Icon(Icons.delete),
                       onPressed: () {
-                        _deleteQuestion(index);
+                        _confirmDeleteQuestion(context, index);
                       },
                     ),
                   ],
@@ -528,7 +527,6 @@ class _AdminQuizState extends State<AdminQuiz> {
 
   void _editQuestion(int index) {
     questionController.text = questions[index]['question'];
-    answerController.text = questions[index]['correctAnswerIndex'];
     option1Controller.text = questions[index]['options'][0];
     option2Controller.text = questions[index]['options'][1];
     option3Controller.text = questions[index]['options'][2];
@@ -546,10 +544,6 @@ class _AdminQuizState extends State<AdminQuiz> {
                 TextField(
                   controller: questionController,
                   decoration: InputDecoration(labelText: 'Question'),
-                ),
-                TextField(
-                  controller: answerController,
-                  decoration: InputDecoration(labelText: 'Correct answer'),
                 ),
                 TextField(
                   controller: option1Controller,
@@ -587,5 +581,53 @@ class _AdminQuizState extends State<AdminQuiz> {
     );
   }
 
-  void _deleteQuestion(int index) {}
+  Future<void> _confirmDeleteQuestion(BuildContext context, int index) async {
+    final bool confirmDelete = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Delete'),
+          content: Text('Are you sure you want to delete this question?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true); // User confirms deletion
+              },
+              child: Text('Delete'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false); // User cancels deletion
+              },
+              child: Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmDelete != null && confirmDelete) {
+      _deleteQuestion(index);
+    }
+  }
+
+  void _deleteQuestion(int index) async {
+    try {
+      final response = await http.delete(
+        Uri.parse(
+            'https://mid-term-e521e-default-rtdb.firebaseio.com/questions/${questions[index]['id']}.json'),
+      );
+
+      if (response.statusCode == 200) {
+        print('Question deleted successfully');
+        setState(() {
+          questions.removeAt(index);
+        });
+      } else {
+        print('Failed to delete question');
+      }
+    } catch (error) {
+      print('Error deleting question: $error');
+    }
+  }
 }
